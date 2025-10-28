@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  # React frontend service
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  # Python data processing service (optional)
+  data-processor:
+    build:
+      context: .
+      dockerfile: Dockerfile.python
+    volumes:
+      - ./public:/app/data
+      - ./scripts:/app/scripts
+    working_dir: /app
+    command: python3 scripts/csv_to_json.py
+    networks:
+      - app-network
+    profiles:
+      - data-processing
+
+  # Development service
+  frontend-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3001:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    networks:
+      - app-network
+    profiles:
+      - development
+
+networks:
+  app-network:
+    driver: bridge
