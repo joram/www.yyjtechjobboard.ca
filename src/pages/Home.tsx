@@ -102,7 +102,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4, backgroundColor: '#fafafa', minHeight: '100vh', mt: 1.25 }}>
+    <Container maxWidth="lg" sx={{ py: 4, mt: 1.25 }}>
       {loading ? (
         <Box display="flex" justifyContent="center" py={4}>
           <CircularProgress />
@@ -132,7 +132,26 @@ const Home: React.FC = () => {
               >
                 <CardActionArea sx={{ height: '100%' }}>
                   <CardContent sx={{ height: '100%', display: 'flex', flexDirection: 'column', pb: 3, position: 'relative' }}>
-                    <Box flexGrow={1}>
+                    {/* Posted time in top left - eyebrows pattern */}
+                    {job.timestamp && (
+                      <Typography 
+                        variant="caption" 
+                        color="text.secondary"
+                        sx={{
+                          position: 'absolute',
+                          top: 16,
+                          left: 16,
+                          fontSize: '0.7rem',
+                          fontWeight: 500,
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.5px'
+                        }}
+                      >
+                        {formatDate(job.timestamp)}
+                      </Typography>
+                    )}
+                    
+                    <Box flexGrow={1} sx={{ mt: job.timestamp ? 1 : 0 }}>
                       <Typography 
                         variant="h6" 
                         component="h3" 
@@ -143,7 +162,8 @@ const Home: React.FC = () => {
                           display: '-webkit-box',
                           WebkitLineClamp: 2,
                           WebkitBoxOrient: 'vertical',
-                          minHeight: '3.5em'
+                          minHeight: '3.5em',
+                          mt: 2
                         }}
                       >
                         {job.jobTitle}
@@ -176,22 +196,6 @@ const Home: React.FC = () => {
                         <Chip label="Visa Sponsorship" size="small" color="secondary" />
                       )}
                     </Box>
-                    
-                    {/* Posted time in bottom right */}
-                    {job.timestamp && (
-                      <Typography 
-                        variant="caption" 
-                        color="text.secondary"
-                        sx={{
-                          position: 'absolute',
-                          bottom: 16,
-                          right: 16,
-                          fontSize: '0.75rem'
-                        }}
-                      >
-                        {formatDate(job.timestamp)}
-                      </Typography>
-                    )}
                   </CardContent>
                   
                   {/* Hover Overlay */}
