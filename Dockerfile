@@ -35,8 +35,8 @@ RUN mkdir -p /var/cache/nginx/client_temp \
     chown -R nginx:nginx /var/cache/nginx && \
     chmod -R 755 /var/cache/nginx
 
-# Expose port 80
-EXPOSE 80
+# Expose port 8080 (non-privileged port)
+EXPOSE 8080
 
 # Start nginx
 CMD ["nginx", "-g", "daemon off;"]
