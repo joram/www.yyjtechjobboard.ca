@@ -13,8 +13,6 @@ RUN npm ci --only=production
 # Copy source code
 COPY . .
 
-RUN apt-get update && apt-get install -y doesnotexist_abc123
-
 # Build the app
 RUN npm run build
 
