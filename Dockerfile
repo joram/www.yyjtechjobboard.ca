@@ -17,6 +17,7 @@ COPY . .
 RUN npm run build
 
 # Production stage with nginx
+# Using nginx:alpine for lightweight production server
 FROM nginx:alpine
 
 # Copy built app from build stage
