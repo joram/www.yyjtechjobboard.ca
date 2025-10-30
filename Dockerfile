@@ -26,14 +26,16 @@ COPY --from=build /app/build /usr/share/nginx/html
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Create nginx cache directories with proper permissions
+# Create nginx cache directories and PID file directory with proper permissions
 RUN mkdir -p /var/cache/nginx/client_temp \
     /var/cache/nginx/proxy_temp \
     /var/cache/nginx/fastcgi_temp \
     /var/cache/nginx/uwsgi_temp \
-    /var/cache/nginx/scgi_temp && \
+    /var/cache/nginx/scgi_temp \
+    /run && \
     chown -R nginx:nginx /var/cache/nginx && \
-    chmod -R 755 /var/cache/nginx
+    chmod -R 755 /var/cache/nginx && \
+    chmod 777 /run
 
 # Expose port 8080 (non-privileged port)
 EXPOSE 8080
